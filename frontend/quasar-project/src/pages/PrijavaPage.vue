@@ -33,7 +33,7 @@ const provjeriKorisnika = () => {
 const handleClick = () => {
   const korisnikPostoji = provjeriKorisnika();
   if (korisnikPostoji) {
-    router.push('/vrsteMobilnosti');
+    router.push('/usavrsavanje');
     localStorage.setItem("token", response.data.token);
   } else {
     alert('Korisnik ne postoji!');

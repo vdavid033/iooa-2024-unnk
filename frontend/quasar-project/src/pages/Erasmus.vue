@@ -1,3 +1,4 @@
+
 <template>
   <br/>
   <q-btn label="Unos novog Erasmusa" color="primary" @click="openAddDialog" />
@@ -129,6 +130,20 @@
       </q-card-actions>
     </q-card>
   </q-dialog>
+
+  <q-dialog v-model="successDialog" persistent>
+    <q-card style="min-width: 350px">
+      <q-card-section>
+        <div class="text-h6">Uspjeh</div>
+      </q-card-section>
+      <q-card-section class="q-pt-none">
+        <p>Erasmus uspješno spremljen!</p>
+      </q-card-section>
+      <q-card-actions align="right" class="text-primary">
+        <q-btn flat label="U redu" v-close-popup @click="successDialog = false" />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script setup>
@@ -140,6 +155,7 @@ const posts = ref([]);
 const postsProfesori = ref([]);
 const postsMobilnosti = ref([]);
 const prompt = ref(false);
+const successDialog = ref(false);
 const showDatePicker = ref(false);
 const showDatePickerZavrestak = ref(false);
 const nazivUnos = ref('');
@@ -213,12 +229,16 @@ const unesiVrstuMobilnosti = async () => {
     await axios.post('http://localhost:4200/dodajErasmus/', sampleData);
     resetForm();
     getPosts();
+    prompt.value = false;
+    successDialog.value = true;
   } catch (error) {
     console.error(error);
   }
 };
 
-const openEditDialog = (post) => {
+const openEditDialog = (
+
+post) => {
   nazivUnos.value = post.Naziv_Institucije;
   datumPocetakUnos.value = post.DatumPocetka;
   datumZavrsetakUnos.value = post.DatumZavrsetka;
@@ -241,6 +261,8 @@ const updatePost = async () => {
     await axios.put(`http://localhost:4200/updateErasmus/${currentPostId.value}`, updatedData);
     resetForm();
     getPosts();
+    prompt.value = false;
+    successDialog.value = true;
   } catch (error) {
     console.error(error);
   }
